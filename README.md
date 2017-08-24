@@ -46,7 +46,7 @@ Just clone this repository and run MERIT as described below.
 MERIT needs an indexed reference fasta file (whatever you mapped your BAM files to) -- e.g., hg19.fa and hg19.fa.fai.
 
 
-## Usage Example
+## Usage example
 
 Running MERIT on merge reads of example BAM file; UltraII_TP53.2.ME:
 
