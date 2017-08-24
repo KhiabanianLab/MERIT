@@ -1,0 +1,18 @@
+##Number of homopolymer repeats:,2
+#inserted_bases,total_depth_frw,total_depth_rev,alt_depth_frw,alt_depth_rev,alt_qual_frw,alt_qual_rev,alt_pos_in_read_frw,alt_pos_in_read_rev,occurrence_frw,occurrence_rev
+T,49985.0,49989.0,1.0,1.0,41.0,41.0,132.0,132.0,1.0,1.0
+G,49985.0,49989.0,1.0,1.0,41.0,41.0,126.0,126.0,1.0,1.0
+C,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+A,199904.0,200120.0,4.0,8.0,38.75,32.75,3.0,6.0,4.0,4.0
+##Number of homopolymer repeats:,3
+#inserted_bases,total_depth_frw,total_depth_rev,alt_depth_frw,alt_depth_rev,alt_qual_frw,alt_qual_rev,alt_pos_in_read_frw,alt_pos_in_read_rev,occurrence_frw,occurrence_rev
+T,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+G,49983.0,49987.0,3.0,3.0,41.0,39.6666666667,128.0,128.0,1.0,1.0
+C,99946.0,99954.0,11.0,11.0,38.95,34.95,12.0,12.0,2.0,2.0
+A,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+##Number of homopolymer repeats:,4
+#inserted_bases,total_depth_frw,total_depth_rev,alt_depth_frw,alt_depth_rev,alt_qual_frw,alt_qual_rev,alt_pos_in_read_frw,alt_pos_in_read_rev,occurrence_frw,occurrence_rev
+T,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+G,49972.0,49977.0,12.0,12.0,35.3333333333,32.8333333333,4.0,4.0,1.0,1.0
+C,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+A,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0

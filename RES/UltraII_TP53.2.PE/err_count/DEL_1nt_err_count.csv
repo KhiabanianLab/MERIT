@@ -1,0 +1,5 @@
+#deleted_bases,total_depth_frw,total_depth_rev,alt_depth_frw,alt_depth_rev,alt_qual_frw,alt_qual_rev,alt_pos_in_read_frw,alt_pos_in_read_rev,occurrence_frw,occurrence_rev
+T,49985.0,49989.0,0.0,14.0,0.0,39.1428571429,0.0,132.0,0.0,1.0
+G,49985.0,49989.0,5.0,5.0,33.6,35.6,126.0,126.0,1.0,1.0
+C,99955.0,100164.0,11.0,13.0,39.85,25.8111111111,7.0,4.0,2.0,3.0
+A,349861.0,349888.0,72.0,70.0,39.3993092622,33.590989011,3.0,8.0,7.0,6.0
