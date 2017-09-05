@@ -1,7 +1,7 @@
 
 # MERIT
 
-MERIT - *Mutation Error Rate Identification Toolkit* - is a comprehensive pipeline designed for in-depth quantification of erroneous HTS calls developed in [Khiabanian Lab](www.khiabanian-lab.org) by Mohammad Hadigol. 
+MERIT - *Mutation Error Rate Identification Toolkit* - is a comprehensive pipeline designed for in-depth quantification of erroneous HTS calls developed in [Khiabanian Lab](http://khiabanian-lab.org/) by Mohammad Hadigol. 
 
 ## Introduction
 
