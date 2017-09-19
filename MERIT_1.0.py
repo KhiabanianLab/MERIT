@@ -96,7 +96,7 @@ def get_arg():
 	parser.add_argument("-I", "--positions", help="BED file containing a list of regions or sites where pileup or BCF should be generated")
 	parser.add_argument("-H", "--REF", default = MERITdir + '/bin/ref_genome/hg19.fa', help="Reference genome")
 	parser.add_argument("-N", "--Name", help="Sample name")
-	parser.add_argument("--max_hp_no", default = 4, help="Maximum number of homopolymer repeats to be considered in indel error rate analysis")
+	parser.add_argument("--max_hp_no", type=int, default = 4, help="Maximum number of homopolymer repeats to be considered in indel error rate analysis")
 	parser.add_argument("--cut_off_freq", default = 10.0, help='Cut off frequency (percentage) to identify errors')
 	parser.add_argument("--min_depth", default = 100, help="Minimum total depth of variant to be considered in error rate anlysis")
 	parser.add_argument("--qual-offset", default = 33, help="Quality offset") 
@@ -109,8 +109,8 @@ def get_arg():
 	parser.add_argument("-e", "--ext_prob", default = 20, help="Phred-scaled gap extension sequencing error probability")
 	parser.add_argument("-F", "--gap_frac", default = 0.000001, help="Minimum fraction of gapped reads")
 	parser.add_argument("--tandem_qual", default = 100, help="Coefficient for modeling homopolymer errors")
-	parser.add_argument("-L", "--max_idepth", default = 100000000, help="Skip INDEL calling if the average per-input-file depth is above INT")
-	parser.add_argument("-o", "--open_prob", default = 40, help="Phred-scaled gap open sequencing error probability")
+	parser.add_argument("-L", "--max_idepth", type=int, default = 100000000, help="Skip INDEL calling if the average per-input-file depth is above INT")
+	parser.add_argument("-o", "--open_prob", type=int, default = 40, help="Phred-scaled gap open sequencing error probability")
 	parser.add_argument("--verbose","-v", action="store_true", help="Print commands used in each step (default: off)")
 	parser.add_argument("--two_nt_indel", action="store_true", help="Consider two nt indels in error rate analysis (default: off)")
 	parser.add_argument("--noclean", action="store_true", help="do not delete temporary intermediate files (default: off)")
@@ -1213,10 +1213,7 @@ class Step6(Steps):
 		self.itr = 0
 		for j in range(len(self.ind1nt)):
 			for i in range(len(self.ind1nt)):
-			    if self.itr < 8:
-					self.indel_bases = self.ind1nt[i] + self.ind1nt[j]
-			    else:
-					self.indel_bases = self.ind1nt[1-j] + self.ind1nt[3-i]
+			    self.indel_bases = self.ind1nt[i] + self.ind1nt[j]
 			    self.ind2_mut_list[self.itr, 0] = self.indel_bases
 			    self.itr += 1
 		
@@ -1339,7 +1336,7 @@ class Step6(Steps):
     
 		#############
 		### Single nt indel - homopolymeric 
-						
+								
 		for kl in range(2,self.args.max_hp_no+1):
 			    
 			self.del_count = np.zeros([4,10]) 
@@ -1511,6 +1508,3 @@ class Step6(Steps):
     		
 args = get_arg()
 main()
-
-
-
