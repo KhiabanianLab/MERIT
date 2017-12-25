@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 __author__ = "Mohammad Hadigol"
-__version__ = "1.0"
-__date__ = "Date: 08-2017"
+__version__ = "1.1"
+__date__ = "Date: 12-2017"
 
 import argparse
 import time
@@ -92,7 +92,7 @@ def get_arg():
 	parser = argparse.ArgumentParser(description = MERIT_description, prog='MERIT_v1.py', usage='python %(prog)s [OPTIONS] ...')
 
 	parser.add_argument("-B", "--BAM_dir", default = MERITdir + '/BAM/' , help="Directory of input BAM file")
-	parser.add_argument("-R", "--RES_dir", default = MERITdir + '/RES/' , help="Directory of results")
+	parser.add_argument("-R", "--RES_dir", default = MERITdir + '/RES_TEST/' , help="Directory of results")
 	parser.add_argument("-I", "--positions", help="BED file containing a list of regions or sites where pileup or BCF should be generated")
 	parser.add_argument("-H", "--REF", default = MERITdir + '/bin/ref_genome/hg19.fa', help="Reference genome")
 	parser.add_argument("-N", "--Name", help="Sample name")
@@ -213,11 +213,18 @@ def getIndex(items, itm):
 
 ###---------------------------------------------------------------------	
 
+##def removeCaretDollar(items):
+    ##'''remove $, ^ and character after ^ in items'''    
+    ##items = items.replace('$', '')       ## remove $
+    ##itemstmp = re.subn('\^.', '', items) ## remove ^ and char after that
+    ##items = itemstmp[0]
+    ##return items
+    
 def removeCaretDollar(items):
     '''remove $, ^ and character after ^ in items'''    
-    items = items.replace('$', '')       ## remove $
-    itemstmp = re.subn('\^.', '', items) ## remove ^ and char after that
+    itemstmp = re.subn('\^.', '', items)       ## remove ^ and char after that (this should be done before removing $ - special case error: depth of 1x with mapping quality of $, example: chr1	1219526	g	1	^$A	%	1)
     items = itemstmp[0]
+    items = items.replace('$', '')             ## remove $
     return items
     
 ###---------------------------------------------------------------------	
@@ -376,7 +383,7 @@ def PileupExtractor(line, dic_mpileup):
 	cols = line.split("\t")
 	var = ''.join(cols[4:5])
 	ref = ''.join(cols[2:3])
-	mpileup_line = dic_mpileup[''.join(cols[1:2])]
+	mpileup_line = dic_mpileup['-'.join((cols[0], cols[1]))]
 	bases_org = mpileup_line[4]
 	bases = removeCaretDollar(bases_org)    			### bases do not include Caret and Dollar 
 	phreds = list(map(str, mpileup_line[5]))
@@ -393,7 +400,7 @@ def PileupExtractor(line, dic_mpileup):
 	len_ref = len(ref)
 	len_phreds = len(phreds)
 	len_bases= len(bases)
-    	
+
 	################ SNV with no indel at next position
 	if (len_var == len_ref and len_phreds == len_bases): 
 
@@ -637,7 +644,7 @@ def PileupExtractor(line, dic_mpileup):
 		for i in range(len(frw_charsm)):
 			d_tot_frw -= last_bases.count(frw_charsm[i])
 		 	d_tot_rev -= last_bases.count(rev_charsm[i])	
-	
+
 	######################
 	newrow = cols[0:6] + (str(d_tot_frw)).split() + (str(d_tot_rev)).split() + (str(d_var_frw)).split() + (str(d_var_rev)).split() \
 		+ (str((float(d_var_frw + d_var_rev)/float(d_tot_frw + d_tot_rev)*100))).split() + (str(mean_qual_frw)).split() + (str(mean_qual_rev)).split() \
@@ -920,21 +927,21 @@ class Step4(Steps):
 		self.set_input(self.args.RES_dir + "/" + self.args.Name + "/" + self.args.Name + ".var")                                   		        ### var input
 		self.set_output1(self.args.RES_dir + "/" + self.args.Name + "/" + self.args.Name + ".var.qual")                					### var.qual output
 		
-		### Read Pileup into dictionary 
-		self.dict_pileup = {}	
-		with open(self.args.RES_dir + "/" + self.args.Name + "/" + self.args.Name + ".mpileup", 'r') as self.fpileup:
-			for self.line in self.fpileup:
-				if ( self.line[0:1] != "#" ):
-					self.cols_mp = self.line.split("\t")
-					self.dict_pileup[''.join(self.cols_mp[1:2])] = self.cols_mp
-
-		
 	@mytimer
 	def run(self):	
 		"""Run bcftools query"""
 		### Run parent's run method
 		super(Step4, self).run()
 		
+		### Read Pileup into dictionary 
+		print "reading Pileup inot dictionary ..."
+		self.dict_pileup = {}	
+		with open(self.args.RES_dir + "/" + self.args.Name + "/" + self.args.Name + ".mpileup", 'r') as self.fpileup:
+			for self.line in self.fpileup:
+				if ( self.line[0:1] != "#" ):
+					self.cols_mp = self.line.split("\t")
+					self.dict_pileup['-'.join((self.cols_mp[0], self.cols_mp[1]))] = self.cols_mp
+					
 		### Write header for var
 		if ("2" in self.args.steps):
 		    		if (self.args.ann):
