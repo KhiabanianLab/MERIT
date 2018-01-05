@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 __author__ = "Mohammad Hadigol"
-__version__ = "1.1"
-__date__ = "Date: 12-2017"
+__version__ = "1.2"
+__date__ = "Date: 01-2018"
 
 import argparse
 import time
@@ -212,13 +212,6 @@ def getIndex(items, itm):
     return [nn for nn in xrange(len(items)) if items.find(itm, nn) == nn]
 
 ###---------------------------------------------------------------------	
-
-##def removeCaretDollar(items):
-    ##'''remove $, ^ and character after ^ in items'''    
-    ##items = items.replace('$', '')       ## remove $
-    ##itemstmp = re.subn('\^.', '', items) ## remove ^ and char after that
-    ##items = itemstmp[0]
-    ##return items
     
 def removeCaretDollar(items):
     '''remove $, ^ and character after ^ in items'''    
@@ -236,46 +229,60 @@ def getMode(items):
 ###---------------------------------------------------------------------	
 
 def removeINDELnt(items):
-    '''remove +[0-9]+[ACGTNacgtn] and -[0-9]+[ACGTNacgtn] in items'''
+    '''remove +[0-9]+[ACGTNacgtn] and -[0-9]+[ACGTNacgtn] in items'''			
     items_out = items
-    
+	
     ind_plus = getIndex(items, '+')                
     ind_minus =  getIndex(items, '-')      
-
+	
     ind_p_int = map(lambda x:x+1, ind_plus)
     ind_m_int = map(lambda x:x+1, ind_minus)
-						
-    if ind_p_int:
-	vec_p = itemgetter(*ind_p_int)(items)
+	
+    ind_p_int2 = map(lambda x:x+2, ind_plus)
+    ind_m_int2 = map(lambda x:x+2, ind_minus)
+	
+    vec_p = list(range(len(ind_plus)))
+    vec_m = list(range(len(ind_minus)))
+	
+    if ind_plus:
+		for ii in range(len(ind_plus)):
+			vec_p[ii] = itemgetter(ind_p_int[ii])(items)
+			vec_p2 = itemgetter(ind_p_int2[ii])(items)
+			if vec_p2.isdigit():
+				vec_p[ii] = str(vec_p[ii]) + vec_p2
     else:
-	vec_p = []
-				
-    if ind_m_int:
-	vec_m = itemgetter(*ind_m_int)(items)
+		vec_p = []		
+			
+    if ind_minus:
+		for ii in range(len(ind_minus)):
+			vec_m[ii] = itemgetter(ind_m_int[ii])(items)
+			vec_m2 = itemgetter(ind_m_int2[ii])(items)
+			if vec_m2.isdigit():
+				vec_m[ii] = str(vec_m[ii]) + vec_m2
     else:
-    	vec_m = []
+		vec_m = []		
 									
     ind_rm_p = range(len(vec_p))
     ind_rm_m = range(len(vec_m))
-					
+
     if vec_p:
-	for ii in range(len(vec_p)):
-	    if int(vec_p[ii]) < 10:
-		ind_rm_p[ii] = int(ind_p_int[ii]) + 1 + int(vec_p[ii])
-		items_out = items_out.replace(str(items[int(ind_plus[ii]):ind_rm_p[ii]]), '') 
-	    elif (int(vec_p[ii]) > 10 and int(vec_p[ii]) < 100):
-		ind_rm_p[ii] = int(ind_p_int[ii]) + 2 + int(vec_p[ii])
-		items_out = items_out.replace(str(items[int(ind_plus[ii]):ind_rm_p[ii]]), '') 
-					
+		for ii in range(len(vec_p)):
+			if int(vec_p[ii]) < 10:
+				ind_rm_p[ii] = int(ind_p_int[ii]) + 1 + int(vec_p[ii])
+				items_out = items_out.replace(str(items[int(ind_plus[ii]):ind_rm_p[ii]]), '') 
+			elif (int(vec_p[ii]) >= 10 and int(vec_p[ii]) < 100):
+				ind_rm_p[ii] = int(ind_p_int[ii]) + 2 + int(vec_p[ii])
+				items_out = items_out.replace(str(items[int(ind_plus[ii]):ind_rm_p[ii]]), '') 
+											
     if vec_m:
-    	for ii in range(len(vec_m)):
-	    if int(vec_m[ii]) < 10:
-		ind_rm_m[ii] = int(ind_m_int[ii]) + 1 + int(vec_m[ii])
-		items_out = items_out.replace(str(items[int(ind_minus[ii]):ind_rm_m[ii]]), '') 
-	    elif (int(vec_m[ii]) > 10 and int(vec_m[ii]) < 100):
-		ind_rm_m[ii] = int(ind_m_int[ii]) + 2 + int(vec_m[ii])	
-		items_out = items_out.replace(str(items[int(ind_minus[ii]):ind_rm_m[ii]]), '')
-		
+		for ii in range(len(vec_m)):
+			if int(vec_m[ii]) < 10:
+				ind_rm_m[ii] = int(ind_m_int[ii]) + 1 + int(vec_m[ii])
+				items_out = items_out.replace(str(items[int(ind_minus[ii]):ind_rm_m[ii]]), '') 
+			elif (int(vec_m[ii]) >= 10 and int(vec_m[ii]) < 100):
+				ind_rm_m[ii] = int(ind_m_int[ii]) + 2 + int(vec_m[ii])	
+				items_out = items_out.replace(str(items[int(ind_minus[ii]):ind_rm_m[ii]]), '')
+
     return items_out
     
 ###---------------------------------------------------------------------	
@@ -424,7 +431,7 @@ def PileupExtractor(line, dic_mpileup):
 	    ind_alt_frw = getIndex(bases_tmp, var)
 
 	    ind_alt_rev = getIndex(bases_tmp, var.lower())
-	    
+
 	    [mean_qual_frw, mean_qual_rev , mode_pos_frw, mode_pos_rev] = \
 	    	getQualAndPos(ind_alt_frw, ind_alt_rev, phreds, pos_in_read)
 	    	
@@ -934,7 +941,6 @@ class Step4(Steps):
 		super(Step4, self).run()
 		
 		### Read Pileup into dictionary 
-		print "reading Pileup inot dictionary ..."
 		self.dict_pileup = {}	
 		with open(self.args.RES_dir + "/" + self.args.Name + "/" + self.args.Name + ".mpileup", 'r') as self.fpileup:
 			for self.line in self.fpileup:
@@ -967,9 +973,7 @@ class Step4(Steps):
 				if (self.line[0:1] != "#"):
 					self.varqualrow = PileupExtractor(self.line, self.dict_pileup)
 					with open(self.output1, 'a') as fvarqual:
-					    if ("2" in self.args.steps):
-						fvarqual.write("\t".join(self.varqualrow))  
-					    else:
+						self.varqualrow[-1] = self.varqualrow[-1].rstrip()
 						fvarqual.write("\t".join(self.varqualrow) + "\n")      
 
 		### Check if output file have nonzero size
@@ -1090,16 +1094,14 @@ class Step5(Steps):
 					self.varctxrow = self.cols[0:3] + self.ref_cntx.split() + self.altt.split() + self.alt_cntx.split() + self.cols[6:15] +  self.ind_bases.split() + (str(self.num_homo_nt)).split() + self.cols[16:]
 					    
 					with open(self.output1, 'a') as self.fvarctx:	
-					    if ("2" in self.args.steps):
-						self.fvarctx.write("\t".join(self.varctxrow))
-					    else:
+						self.varctxrow[-1] = self.varctxrow[-1].rstrip()
 						self.fvarctx.write("\t".join(self.varctxrow) + "\n")
 					
 					self.alt_chr_p = self.alt_chr		
 					
 		### Check if output file have nonzero size
 		check_file_exists_and_nonzero(self.output1)  	### var.ctx
-				    
+		     
 ###---------------------------------------------------------------------					
 
 class Step6(Steps):
