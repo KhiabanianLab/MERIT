@@ -92,7 +92,7 @@ def get_arg():
 	parser = argparse.ArgumentParser(description = MERIT_description, prog='MERIT_v1.py', usage='python %(prog)s [OPTIONS] ...')
 
 	parser.add_argument("-B", "--BAM_dir", default = MERITdir + '/BAM/' , help="Directory of input BAM file")
-	parser.add_argument("-R", "--RES_dir", default = MERITdir + '/RES_TEST/' , help="Directory of results")
+	parser.add_argument("-R", "--RES_dir", default = MERITdir + '/RES/' , help="Directory of results")
 	parser.add_argument("-I", "--positions", help="BED file containing a list of regions or sites where pileup or BCF should be generated")
 	parser.add_argument("-H", "--REF", default = MERITdir + '/bin/ref_genome/hg19.fa', help="Reference genome")
 	parser.add_argument("-N", "--Name", help="Sample name")
