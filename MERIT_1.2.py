@@ -873,10 +873,10 @@ class Step3(Steps):
 		### Write header for var		
 		if ("2" in self.args.steps):
 		    		if (self.args.ann):
-				    	self.bcf_list = "'%CHROM %POS %REF %ALT %DP [%AD{0}] [%AD{1}] [%ADF{0}] [%ADR{0}] [%ADF{1}] [%ADR{1}] %QUAL %SNP %CDS %EFF\n'" 	
+				    	self.bcf_list = "'%CHROM %POS %REF %ALT %DP [%AD{0}] [%AD{1}] [%ADF{0}] [%ADR{0}] [%ADF{1}] [%ADR{1}] %QUAL %SNP %EFF %EFF\n'" 	
 					self.header_var = ["#chr", "pos", "ref", "ref_ctx", "alt", "alt_ctx", "total_depth", "ref_depth", \
 						"alt_depth_frw", "alt_depth_rev", "freq", "ave_alt_qual_frw", "ave_alt_qual_rev", \
-						"pos_inread_alt_frw", "pos_inread_alt_rev", "snp", "CDS", "effect"]  
+						"pos_inread_alt_frw", "pos_inread_alt_rev", "snp", "effect", "effect"]  
 				else:	
 				    	self.bcf_list = "'%CHROM %POS %REF %ALT %DP [%AD{0}] [%AD{1}] [%ADF{0}] [%ADR{0}] [%ADF{1}] [%ADR{1}] %QUAL %EFF %EFF %EFF\n'" 
 					self.header_var = ["#chr", "pos", "ref", "ref_ctx", "alt", "alt_ctx", "total_depth", "ref_depth", \
