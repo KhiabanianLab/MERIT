@@ -43,7 +43,7 @@ Just clone this repository and run MERIT as described below.
 
 ## Reference file
 
-MERIT needs an indexed reference fasta file (whatever you mapped your BAM files to) -- e.g., hg19.fa and hg19.fa.fai.
+MERIT needs an indexed reference fasta file (whatever you mapped your reads to) -- e.g., hg19.fa and hg19.fa.fai.
 
 
 ## Usage example
@@ -75,7 +75,7 @@ if option `--two_nt_indel` is enabled, the following four additional files for d
    - DEL_2nt_hp_err_count.csv: double-base homopolymer deletion error counts
    - INS_2nt_hp_err_count.csv: double-base homopolymer insertion error counts
 
-3. And finally in directory /RES/SampleName/err_count, the corresponding context specific error rates estimated using Binomial model are presented. 
+3. And finally in directory /RES/SampleName/err_rate, the corresponding context specific error rates estimated using Binomial model are presented. 
 
 We note that the number of homopolymeric repeats considered in error rate estimation is controlled via input option `--max_hp_no`. In estimating these error rates, `--cut_off_freq` and `--min_depth` filters are applied to SampleName.var.ctx when counting and estimating error rates. 
 
