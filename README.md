@@ -54,7 +54,7 @@ Running MERIT on merge reads of example BAM file; UltraII_TP53.2.ME:
 python MERIT_1.0.py  -N UltraII_TP53.2.ME
 ```
 
-We have applied MERIT to two datasets obtained from Illumina machines, and have profiled the impact of different alignments on error rate estimates. However, MERIT can be applied to any set of mapped sequence reads that are coordinate sorted.
+We have applied MERIT to two datasets obtained from Illumina machines. However, MERIT can be applied to any set of mapped sequence reads that are coordinate sorted.
 
 ## Description of MERIT's results 
 
