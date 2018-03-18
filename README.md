@@ -134,3 +134,9 @@ python MERIT_1.0.py  --help
                         off)
 
 ```
+
+To convert SampleName.var.ctx to vcf format, run the provided perl script in /bin/merit2vcf as:
+
+```
+perl merit2vcf.pl UltraII_TP53.2.PE.var.ctx > UltraII_TP53.2.PE.vcf
+```
